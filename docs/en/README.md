@@ -10,6 +10,12 @@ TrimLLM is a research framework that implements **layerwise weight condensation*
 
 ---
 
+## Hardware Requirements
+
+**⚠️ Training requires 8–16× A100 40GB GPUs.** See [hardware.md](./hardware.md) for full details, memory calculations, and single-GPU workarounds (QLoRA, smaller models).
+
+---
+
 ## Quick Start
 
 ### 1. Install Dependencies

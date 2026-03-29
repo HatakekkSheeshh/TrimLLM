@@ -1,6 +1,24 @@
-# Đánh Giá Không Cần Huấn Luyện
+# Đánh Giá Không Cần Huấn Luyện — Zero-Shot Baselines
 
-> **Bạn không cần huấn luyện để đánh giá.** TrimLLM đi kèm với bản đầy đủ EleutherAI lm-evaluation-harness — bạn có thể đánh giá bất kỳ model HuggingFace nào (LLaMA, OPT, GPT-2, v.v.) trên 60+ benchmarks chỉ với một lệnh. Không fine-tuning, không cần GPU cluster, không cần CondensationTrainer.
+> **Không có TrimLLM condensation. Không có huấn luyện. Chỉ pretrained model + lm_eval harness.**
+>
+> Workflow này lấy một pretrained model thuần từ HuggingFace (ví dụ: `decapoda-research/llama-7b-hf`) và chạy nó qua EleutherAI lm-evaluation-harness trên 60+ benchmarks. Bạn có được **zero-shot accuracy numbers** — hữu ích như baseline để so sánh với các condensed models của TrimLLM, hoặc để xác minh evaluation setup trước khi chạy bất kỳ huấn luyện nào.
+
+---
+
+## "Zero-Shot" Có Nghĩa Gì Ở Đây
+
+```
+Workflow          Nguồn Model                Condensation?    Tầng
+──────────────────────────────────────────────────────────────────────
+Zero-Shot Eval    HuggingFace (pretrained)   ❌ Không        32 (đầy đủ)
+TrimLLM Condense  Checkpoint đã fine-tune    ✅ Có           <32 (đã cắt)
+```
+
+- **Zero-shot** = load pretrained → evaluate → xong. Không huấn luyện, không loại bỏ tầng.
+- **TrimLLM** = fine-tune với condensation → checkpoint có ít tầng hơn → evaluate.
+
+Cả hai đều dùng cùng một `lm_eval` harness. Zero-shot cho bạn baseline để so sánh với TrimLLM.
 
 ---
 

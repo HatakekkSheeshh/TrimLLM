@@ -1,6 +1,24 @@
-# Evaluation Without Training
+# Evaluation Without Training — Zero-Shot Baselines
 
-> **You don't need to train to evaluate.** TrimLLM ships with the full EleutherAI lm-evaluation-harness — you can evaluate any pretrained HuggingFace model (LLaMA, OPT, GPT-2, etc.) on 60+ benchmarks with a single command. No fine-tuning, no GPU cluster, no CondensationTrainer needed.
+> **No TrimLLM condensation. No training. Just a pretrained model + lm_eval harness.**
+>
+> This workflow takes a raw pretrained model from HuggingFace (e.g., `decapoda-research/llama-7b-hf`) and runs it through the EleutherAI lm-evaluation-harness on 60+ benchmarks. You get **zero-shot accuracy numbers** — useful as baselines to compare against TrimLLM's condensed models, or to verify your evaluation setup before running any training.
+
+---
+
+## What "Zero-Shot" Means Here
+
+```
+Workflow          Model Source              Condensation?    Layers
+──────────────────────────────────────────────────────────────────────
+Zero-Shot Eval    HuggingFace (pretrained)   ❌ No           32 (full)
+TrimLLM Condense  Your fine-tuned checkpoint  ✅ Yes          <32 (trimmed)
+```
+
+- **Zero-shot** = load pretrained → evaluate → done. No training, no layer removal.
+- **TrimLLM** = fine-tune with condensation → checkpoint has fewer layers → evaluate.
+
+Both use the same `lm_eval` harness. Zero-shot gives you the baseline to compare TrimLLM against.
 
 ---
 

@@ -71,9 +71,13 @@ python main.py \
 
 Fine-tune the model using `CondensationTrainer`, which progressively removes transformer layers during training.
 
+> **No GPU cluster?** See [lightning_ai.md](./lightning_ai.md) to rent 8× A100 GPUs on Lightning AI Studio for ~$16–24/hr.
+
 ### STEP 2 — Evaluation (EleutherAI lm-evaluation-harness)
 
 Evaluate the compressed model on 60+ downstream benchmarks using the lm-evaluation-harness fork included in this repo.
+
+> **Want to evaluate without training at all?** See [evaluation_only.md](./evaluation_only.md) — works on a single consumer GPU in minutes.
 
 ---
 

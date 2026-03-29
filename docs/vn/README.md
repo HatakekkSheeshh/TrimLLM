@@ -71,9 +71,13 @@ python main.py \
 
 Fine-tune mô hình bằng `CondensationTrainer`, công cụ này từ từ loại bỏ các tầng transformer trong quá trình huấn luyện.
 
+> **Không có GPU cluster?** Xem [lightning_ai.md](./lightning_ai.md) để thuê 8× A100 GPU trên Lightning AI Studio với ~$16–24/giờ.
+
 ### BƯỚC 2 — Đánh Giá (EleutherAI lm-evaluation-harness)
 
 Đánh giá mô hình đã nén trên 60+ benchmark downstream bằng bản fork lm-evaluation-harness có sẵn trong repo này.
+
+> **Muốn đánh giá mà không cần huấn luyện?** Xem [evaluation_only.md](./evaluation_only.md) — hoạt động trên một consumer GPU duy nhất trong vài phút.
 
 ---
 

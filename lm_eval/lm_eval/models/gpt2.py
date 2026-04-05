@@ -1,6 +1,7 @@
 import torch
 import transformers
 from typing import Optional, Union
+from transformers import BitsAndBytesConfig
 from lm_eval.base import BaseLM
 
 
@@ -14,6 +15,12 @@ def _get_dtype(
     else:
         _torch_dtype = dtype
     return _torch_dtype
+
+
+def _get_quantization_config(load_in_8bit: bool) -> Optional[BitsAndBytesConfig]:
+    if not load_in_8bit:
+        return None
+    return BitsAndBytesConfig(load_in_8bit=True)
 
 
 class HFLM(BaseLM):
@@ -56,7 +63,7 @@ class HFLM(BaseLM):
 
         self.gpt2 = transformers.AutoModelForCausalLM.from_pretrained(
             pretrained,
-            load_in_8bit=load_in_8bit,
+            quantization_config=_get_quantization_config(load_in_8bit),
             low_cpu_mem_usage=low_cpu_mem_usage,
             revision=revision,
             torch_dtype=_get_dtype(dtype),

@@ -21,7 +21,7 @@ accelerate>=0.17.1
 anthropic
 
 [auto-gptq]
-auto-gptq[triton]@ git+https://github.com/PanQiWei/AutoGPTQ
+auto-gptq[triton] @ git+https://github.com/PanQiWei/AutoGPTQ
 
 [dev]
 black

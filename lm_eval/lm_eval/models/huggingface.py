@@ -9,6 +9,7 @@ from typing import List, Mapping, NewType, Optional, Tuple, Union
 from tqdm import tqdm
 
 from transformers import BatchEncoding
+from transformers import BitsAndBytesConfig
 from accelerate import find_executable_batch_size
 
 from lm_eval import utils
@@ -56,6 +57,20 @@ def _get_dtype(
     else:
         _torch_dtype = dtype
     return _torch_dtype
+
+
+def _get_quantization_config(
+    load_in_8bit: Optional[bool] = False,
+    load_in_4bit: Optional[bool] = False,
+) -> Optional[BitsAndBytesConfig]:
+    if not load_in_8bit and not load_in_4bit:
+        return None
+    if load_in_8bit and load_in_4bit:
+        raise ValueError("Only one of `load_in_8bit` or `load_in_4bit` can be True.")
+    return BitsAndBytesConfig(
+        load_in_8bit=load_in_8bit,
+        load_in_4bit=load_in_4bit,
+    )
 
 
 class HuggingFaceAutoLM(BaseLM):
@@ -255,19 +270,18 @@ class HuggingFaceAutoLM(BaseLM):
         if not quantized:
             if load_in_4bit:
                 assert transformers.__version__ >= "4.30.0", "load_in_4bit requires transformers >= 4.30.0"
-            model_kwargs = {}
-            if transformers.__version__ >= "4.30.0":
-                model_kwargs["load_in_4bit"] = load_in_4bit
             model = self.AUTO_MODEL_CLASS.from_pretrained(
                 pretrained,
                 revision=revision + ("/" + subfolder if subfolder is not None else ""),
                 device_map=device_map,
                 max_memory=max_memory,
                 offload_folder=offload_folder,
-                load_in_8bit=load_in_8bit,
+                quantization_config=_get_quantization_config(
+                    load_in_8bit=load_in_8bit,
+                    load_in_4bit=load_in_4bit,
+                ),
                 trust_remote_code=trust_remote_code,
                 torch_dtype=torch_dtype,
-                **model_kwargs,
             )
         else:
             from auto_gptq import AutoGPTQForCausalLM

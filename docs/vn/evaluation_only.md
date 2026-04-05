@@ -29,7 +29,7 @@ Cả hai đều dùng cùng một `lm_eval` harness. Zero-shot cho bạn baselin
 ### 1. Cài đặt harness
 
 ```bash
-cd lm_eval/lm-evaluation-harness
+cd lm_eval
 pip install -e .
 ```
 
